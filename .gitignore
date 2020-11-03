@@ -1,0 +1,4 @@
+src/config.ts
+.vscode/
+build/
+node_modules/
