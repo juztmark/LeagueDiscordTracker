@@ -10,13 +10,15 @@ bot.once('ready', async () => {
     console.log("watching players!");
 });
 
+const discordChannel = getTextChannel(discordChannelId);
+
 async function watcher() {
     for(let i = 0; i < watchedPlayers.length; i++) {
         const player = watchedPlayers[i];
         const game = await getGame(player.id, player.region);
         if(game !== undefined && player.lastGame !== game.footer?.text) {
             player.lastGame = game.footer?.text;
-            getTextChannel(discordChannelId)?.send(game);
+            discordChannel?.send(game);
         }
     }
 }
@@ -34,5 +36,3 @@ function getTextChannel(id: string) {
     }
     return null;
 }
-
-
