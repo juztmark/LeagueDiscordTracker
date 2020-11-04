@@ -4,13 +4,12 @@ import { getGame } from "./leagueProvider";
 
 const bot = new Client();
 bot.login(discordToken);
-
+let channel: TextChannel | null = null;
 bot.once('ready', async () => {
     setInterval(watcher, 20000);
     console.log("watching players!");
+    channel = getTextChannel(discordChannelId);
 });
-
-const discordChannel = getTextChannel(discordChannelId);
 
 async function watcher() {
     for(let i = 0; i < watchedPlayers.length; i++) {
@@ -18,7 +17,7 @@ async function watcher() {
         const game = await getGame(player.id, player.region);
         if(game !== undefined && player.lastGame !== game.footer?.text) {
             player.lastGame = game.footer?.text;
-            discordChannel?.send(game);
+            channel?.send(game);
         }
     }
 }
